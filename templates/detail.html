@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ hotel.name }} - Chi tiết khách sạn</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f9fafc;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .hotel-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .feature-list span {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .review-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+        }
+
+        .room-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+
+            .room-card h5 {
+                margin-bottom: 10px;
+            }
+
+        .btn-primary {
+            border-radius: 10px;
+        }
+
+        .review-form {
+            display: none;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container py-4">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary mb-3">← Quay lại</a>
+
+        <div class="hotel-card mb-4">
+            <img src="{{ hotel.image }}" class="hotel-img" alt="Ảnh khách sạn">
+
+            <div class="p-4">
+                <h2>{{ hotel.name }}</h2>
+                <p class="text-muted mb-1">{{ hotel.city }} — ⭐ {{ hotel.stars }} sao</p>
+                <h4 class="text-danger fw-bold">{{ hotel.price }}₫ / đêm</h4>
+                <p>{{ hotel.full_desc | safe }}</p>
+
+                <h5 class="mt-3">Tiện nghi nổi bật:</h5>
+                <div class="feature-list">
+                    {% for name, icon in features.items() %}
+                    <span>{{ icon }} {{ name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 🏠 DANH SÁCH PHÒNG -->
+        <h3 class="mb-3">Các loại phòng</h3>
+        <div class="row">
+            {% for room in rooms %}
+            <div class="col-md-4">
+                <div class="room-card">
+                    <h5>{{ room.type }}</h5>
+                    <p class="text-muted">{{ room.desc if room.desc else "" }}</p>
+                    <h6 class="text-danger fw-bold">{{ room.price }}₫ / đêm</h6>
+                    <a href="{{ url_for('booking', name=hotel.name, room_type=room.type) }}" class="btn btn-primary w-100 mt-2">Đặt ngay</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <hr class="my-4">
+
+        <!-- 💬 ĐÁNH GIÁ -->
+        <div class="mb-4">
+            <h3>Đánh giá của khách</h3>
+
+            {% if reviews and reviews|length > 0 %}
+            <p><strong>Điểm trung bình:</strong> ⭐ {{ avg_rating }}/5 ({{ reviews|length }} lượt đánh giá)</p>
+            {% for r in reviews %}
+            <div class="review-box">
+                <strong>{{ r.user }}</strong> — ⭐ {{ r.rating }}/5
+                <p>{{ r.comment }}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>Chưa có đánh giá nào cho khách sạn này.</p>
+            {% endif %}
+
+            <button id="toggleReviewBtn" class="btn btn-outline-primary mt-2">Viết đánh giá</button>
+
+            <div id="reviewForm" class="review-form mt-3">
+                <form method="POST" action="{{ url_for('add_review', name=hotel.name) }}">
+                    <div class="mb-2">
+                        <label class="form-label">Tên của bạn:</label>
+                        <input type="text" name="user" class="form-control" placeholder="Ẩn danh nếu để trống">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Đánh giá (1–5 sao):</label>
+                        <select name="rating" class="form-select" required>
+                            <option value="5">5 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="1">1 sao</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Nhận xét:</label>
+                        <textarea name="comment" class="form-control" required placeholder="Viết nhận xét của bạn..."></textarea>
+                    </div>
+                    <button class="btn btn-success" type="submit">Gửi đánh giá</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById("toggleReviewBtn").addEventListener("click", function () {
+            const f = document.getElementById("reviewForm");
+            f.style.display = f.style.display === "none" ? "block" : "none";
+        });
+    </script>
+
+</body>
+</html>

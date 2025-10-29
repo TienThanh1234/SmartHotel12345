@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt phòng - {{ hotel.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/icon.png">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(270deg, #e0f7fa, #fce4ec, #fff3e0);
+            background-size: 600% 600%;
+            animation: moveBg 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes moveBg {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .btn-custom {
+            background: linear-gradient(45deg,#ff8a00,#e52e71);
+            border: none;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all .3s ease;
+        }
+
+            .btn-custom:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255,138,0,.6);
+            }
+
+        .hotel-title {
+            text-align: center;
+            margin: 30px 0 10px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .room-img {
+            width: 100%;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4 mb-5">
+        <div class="hotel-title">
+            <h1>🏨 {{ hotel.name }}</h1>
+            <p class="text-muted">{{ hotel.city }} • ⭐ {{ hotel.stars }} sao</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h4 class="mb-3 text-center text-primary">🛏️ Đặt {{ room_type }}</h4>
+
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" name="fullname" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" name="phone" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email (nếu có)</label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Ngày nhận phòng</label>
+                                <input type="date" class="form-control" name="checkin" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Người lớn</label>
+                                <input type="number" class="form-control" name="adults" min="1" value="1">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Trẻ em</label>
+                                <input type="number" class="form-control" name="children" min="0" value="0">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú / Yêu cầu riêng</label>
+                            <textarea class="form-control" name="note" rows="3" placeholder="Ví dụ: phòng view biển, thêm giường phụ..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom w-100 py-2">💳 Xác nhận đặt phòng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

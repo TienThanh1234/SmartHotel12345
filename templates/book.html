@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt phòng - {{ hotel.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/icon.png">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(270deg, #e0f7fa, #fce4ec, #fff3e0);
+            background-size: 600% 600%;
+            animation: moveBg 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes moveBg {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .navbar {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255,255,255,0.8) !important;
+        }
+
+        .hotel-header {
+            text-align: center;
+            padding: 40px 0 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hotel-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .room-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 18px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+            .room-card:nth-child(1) {
+                animation-delay: 0.2s;
+            }
+
+            .room-card:nth-child(2) {
+                animation-delay: 0.4s;
+            }
+
+            .room-card:nth-child(3) {
+                animation-delay: 0.6s;
+            }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .room-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-book {
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: 600;
+        }
+
+            .btn-book:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255, 138, 0, 0.5);
+            }
+
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        }
+
+        .btn-custom {
+            background: linear-gradient(45deg,#ff8a00,#e52e71);
+            border: none;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+            .btn-custom:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255,138,0,.6);
+            }
+    </style>
+</head>
+
+<body>
+    <!-- 🧭 Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="/">🌐 MyTravel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">Giới thiệu</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold text-danger" href="tel:0123456789">📞 Hotline: 0123 456 789</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="hotel-header">
+            <h1>🏨 {{ hotel.name }}</h1>
+            <p class="text-muted">{{ hotel.city }} • ⭐ {{ hotel.stars }} sao • 🌟 {{ hotel.rating }} điểm</p>
+        </div>
+
+        <img src="{{ hotel.image }}" alt="{{ hotel.name }}" class="hotel-img">
+
+        <h3 class="text-center mt-4 mb-4">Chọn loại phòng phù hợp</h3>
+
+        <div class="row mb-5">
+            <!-- Phòng nhỏ -->
+            <div class="col-md-4 mb-4">
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Small Room">
+                    <div class="card-body">
+                        <h5 class="card-title">Phòng nhỏ</h5>
+                        <p class="card-text">Phù hợp cho 1 người hoặc khách đi công tác.</p>
+                        <p><strong>Giá:</strong> {{ (hotel.price * 1) | int }} VND / đêm</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phòng đôi -->
+            <div class="col-md-4 mb-4">
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Double Room">
+                    <div class="card-body">
+                        <h5 class="card-title">Phòng đôi</h5>
+                        <p class="card-text">Rộng rãi cho 2 người, có ban công và view đẹp.</p>
+                        <p><strong>Giá:</strong> {{ (hotel.price * 1.8) | int }} VND / đêm</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phòng tổng thống -->
+            <div class="col-md-4 mb-4">
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1600585154154-3c6b5e3f9b9c?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="President Room">
+                    <div class="card-body">
+                        <h5 class="card-title">Phòng Tổng Thống 👑</h5>
+                        <p class="card-text">Sang trọng, tiện nghi 5 sao, view toàn cảnh thành phố.</p>
+                        <p><strong>Giá:</strong> {{ (hotel.price * 3.5) | int }} VND / đêm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🧾 Form thanh toán -->
+        <h3 class="text-center mb-3">💳 Thông tin thanh toán</h3>
+        <div class="card p-4 mb-5">
+            <form action="/payment" method="POST">
+                <input type="hidden" name="hotel" value="{{ hotel.name }}">
+
+                <div class="mb-3">
+                    <label class="form-label">Chọn loại phòng</label>
+                    <select class="form-select" name="room_type" required>
+                        <option value="Phòng nhỏ">Phòng nhỏ</option>
+                        <option value="Phòng đôi">Phòng đôi</option>
+                        <option value="Phòng tổng thống">Phòng tổng thống</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Họ và tên</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="tel" class="form-control" name="phone" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email (nếu có)</label>
+                    <input type="email" class="form-control" name="email">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Ngày nhận phòng</label>
+                        <input type="date" class="form-control" name="checkin" required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Người lớn</label>
+                        <input type="number" class="form-control" name="adults" min="1" value="1">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Trẻ em</label>
+                        <input type="number" class="form-control" name="children" min="0" value="0">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Yêu cầu riêng</label>
+                    <textarea class="form-control" name="note" rows="3" placeholder="Ví dụ: phòng view biển, thêm giường phụ..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-custom w-100 py-2">💳 Thanh toán</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

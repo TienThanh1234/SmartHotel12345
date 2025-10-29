@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán thành công</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/static/icon.png">
+
+    <style>
+        body {
+            background: linear-gradient(270deg, #a8edea, #fed6e3, #fff3e0);
+            background-size: 600% 600%;
+            animation: moveBg 15s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        @keyframes moveBg {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .success-box {
+            background: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            animation: zoomIn 1s ease;
+            max-width: 550px;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h2 {
+            color: #e52e71;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #ff8a00;
+        }
+
+        .btn-home {
+            margin-top: 25px;
+            background: linear-gradient(45deg, #ff8a00, #e52e71);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+            .btn-home:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(255,138,0,0.5);
+            }
+    </style>
+</head>
+
+<body>
+    <div class="success-box">
+        <h2>🎉 Thanh toán thành công!</h2>
+
+        {% if info %}
+        <p>Cảm ơn <span class="highlight">{{ info.name }}</span> đã đặt phòng tại <strong>{{ info.hotel }}</strong>.</p>
+        <p>
+            🏷️ Loại phòng: <strong>{{ info.room_type }}</strong><br>
+            📅 Ngày nhận phòng: {{ info.checkin }}<br>
+            👥 Số lượng: {{ info.adults }} người lớn, {{ info.children }} trẻ em
+        </p>
+        <p>📞 Liên hệ: {{ info.phone }}</p>
+        {% if info.email %}<p>📧 Email: {{ info.email }}</p>{% endif %}
+        {% if info.note %}<p>📝 Yêu cầu riêng: "{{ info.note }}"</p>{% endif %}
+
+        {% else %}
+        <p>Cảm ơn <span class="highlight">{{ fullname }}</span> đã đặt phòng tại <strong>{{ hotel.name }}</strong>.</p>
+        <p>🏷️ Loại phòng: <strong>{{ room_type }}</strong></p>
+        <p>Chúng tôi sẽ sớm liên hệ xác nhận đơn đặt phòng của bạn.</p>
+        {% endif %}
+
+        <a href="/" class="btn-home">🏠 Quay về Trang chủ</a>
+    </div>
+</body>
+</html>
